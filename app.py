@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 st.title('walletへようこそ')
-
+st.write('***ロード終了を確認してからページ遷移をお願いします***')
 if st.session_state:
     if not requests.get("https://f4ykht.deta.dev/utxo/" + st.session_state["public_key"]).json()["amount"]:
         st.write('鍵が作成できたようですね！')
