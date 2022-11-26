@@ -1,19 +1,24 @@
 import streamlit as st
 import requests
-URL = "https://f4ykht.deta.dev/create_key"
+from ecdsa import SigningKey
+from ecdsa import SECP256k1
+
+private_key = SigningKey.generate(curve=SECP256k1)
+public_key = private_key.verifying_key
+private_key_hex = private_key.to_string().hex()
+public_key_hex = public_key.to_string().hex()
 
 st.title('鍵の作成')
 
-res = requests.get(URL)
 st.write('public key')
-st.info(res.json()["public_key_str"])
+st.info(public_key_hex)
 st.write('private key')
-st.info(res.json()["private_key_str"])
+st.info(private_key_hex)
 
 st.sidebar.write('public key')
-st.sidebar.info(res.json()["public_key_str"])
+st.sidebar.info(public_key_hex)
 st.sidebar.write('private key')
-st.sidebar.info(res.json()["private_key_str"])
+st.sidebar.info(private_key_hex)
 
-st.session_state['public_key'] = res.json()["public_key_str"]
-st.session_state['private_key'] = res.json()["private_key_str"]
+st.session_state['public_key'] = public_key_hex
+st.session_state['private_key'] = private_key_hex
